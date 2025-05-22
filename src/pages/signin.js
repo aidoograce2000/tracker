@@ -2,76 +2,91 @@ import '../styles/signin.css';
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle, faApple } from '@fortawesome/free-brands-svg-icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { signIn } from '../redux/slices/authSlice';
 
 const SignIn = () => {
-    const [form, setForm] = useState({ email: '', password: '' });
+  const [form, setForm] = useState({ email: '', password: '' });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = () => {
+    const { email, password } = form;
+    if (!email || !password) {
+      alert('Both fields are required.');
+      return;
+    }
+
+    // Simulate authentication
+    const userData = {
+      id: 1,
+      name: 'John Doe',
+      email: email,
     };
 
-    const handleSubmit = () => {
-        const { email, password } = form;
-        if (!email || !password) {
-            alert('Both fields are required.');
-            return;
-        }
-        
-        console.log('Sign In Data:', form);
-    };
+    // Save user to Redux
+    dispatch(signIn(userData));
 
-    return (
-        <div className="signin-container">
-            <div className="signin-box">
-                <div className="signin-form">
-                    <h1>Welcome Back</h1>
-                    <p>Please sign in to your account</p>
+    // Redirect to home/dashboard
+    navigate('/');
+  };
 
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="Email"
-                        className="input"
-                        value={form.email}
-                        onChange={handleChange}
-                    />
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="Password"
-                        className="input"
-                        value={form.password}
-                        onChange={handleChange}
-                    />
+  return (
+    <div className="signin-container">
+      <div className="signin-box">
+        <div className="signin-form">
+          <h1>Welcome Back</h1>
+          <p>Please sign in to your account</p>
 
-                    <button className="signin-btn" onClick={handleSubmit}>Sign In</button>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            className="input"
+            value={form.email}
+            onChange={handleChange}
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            className="input"
+            value={form.password}
+            onChange={handleChange}
+          />
 
-                    <div className="forgot-link">
-                        <Link to="/forgotpassword">Forgot Password?</Link>
-                    </div>
+          <button className="signin-btn" onClick={handleSubmit}>Sign In</button>
 
-                    <div className="divider">or</div>
+          <div className="forgot-link">
+            <Link to="/forgot-password">Forgot Password?</Link>
+          </div>
 
-                    <button className="social-btn google">
-                        <FontAwesomeIcon icon={faGoogle} /> Sign In with Google
-                    </button>
+          <div className="divider">or</div>
 
-                    <button className="social-btn apple">
-                        <FontAwesomeIcon icon={faApple} /> Sign In with Apple
-                    </button>
+          <button className="social-btn google">
+            <FontAwesomeIcon icon={faGoogle} /> Sign In with Google
+          </button>
 
-                    <p className="new-account">
-                        Don't have an account? <Link to="/signup" className="signup-link">Create one</Link>
-                    </p>
-                </div>
+          <button className="social-btn apple">
+            <FontAwesomeIcon icon={faApple} /> Sign In with Apple
+          </button>
 
-                <div className="signin-illustration">
-                    <p>Your secure access starts here. Welcome back!</p>
-                </div>
-            </div>
+          <p className="new-account">
+            Don't have an account? <Link to="/signup" className="signup-link">Create one</Link>
+          </p>
         </div>
-    );
+
+        <div className="signin-illustration">
+          <p>Your secure access starts here. Welcome back!</p>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default SignIn;

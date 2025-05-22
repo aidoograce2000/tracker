@@ -2,34 +2,50 @@ import '../styles/signup.css';
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle, faApple } from '@fortawesome/free-brands-svg-icons';
-import { Link } from 'react-router-dom';
 import bgImage from '../asset/water.jpg';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { signIn } from '../redux/slices/authSlice';
 
 
 const SignUp = () => {
     const [form, setForm] = useState({
-        fullName: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
+      fullName: '',
+      email: '',
+      password: '',
+      confirmPassword: ''
     });
-
+  
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+  
     const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
+      setForm({ ...form, [e.target.name]: e.target.value });
     };
-
-    const handleSubmit = () => {
-        const { fullName, email, password, confirmPassword } = form;
-        if (!fullName || !email || !password || !confirmPassword) {
-            alert('All fields are required.');
-            return;
-        }
-        if (password !== confirmPassword) {
-            alert('Passwords do not match.');
-            return;
-        }
-        
-        console.log('Sign Up Data:', form);
+  
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      const { fullName, email, password, confirmPassword } = form;
+  
+      if (!fullName || !email || !password || !confirmPassword) {
+        alert('All fields are required.');
+        return;
+      }
+  
+      if (password !== confirmPassword) {
+        alert('Passwords do not match.');
+        return;
+      }
+  
+      // Simulate successful registration
+      const userData = {
+        id: Date.now(),
+        name: fullName,
+        email
+      };
+  
+      dispatch(signIn(userData)); // save user to Redux
+      navigate('/'); // redirect to home
     };
 
     return (
@@ -105,3 +121,6 @@ const SignUp = () => {
 };
 
 export default SignUp;
+
+
+       

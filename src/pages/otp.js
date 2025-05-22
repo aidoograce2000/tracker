@@ -1,7 +1,11 @@
 import '../styles/otp.css';
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { clearEmail } from '../redux/slices/authSlice';
 
 const OTP = () => {
+  const dispatch = useDispatch();
+  const email = useSelector((state) => state.auth.emailForOTP);
   const [otp, setOtp] = useState(new Array(6).fill(''));
   const [resendTimer, setResendTimer] = useState(30);
 
@@ -20,7 +24,6 @@ const OTP = () => {
     newOtp[index] = element.value;
     setOtp(newOtp);
 
-    
     if (element.nextSibling && element.value !== "") {
       element.nextSibling.focus();
     }
@@ -32,8 +35,11 @@ const OTP = () => {
       alert('Please enter all 6 digits of the OTP.');
       return;
     }
-    
+
     console.log('OTP entered:', enteredCode);
+    
+    dispatch(clearEmail()); // Clear stored email from Redux
+    alert('OTP Verified Successfully!');
   };
 
   const resendOTP = () => {
@@ -48,7 +54,11 @@ const OTP = () => {
       <div className="otp-box">
         <div className="otp-form">
           <h1>Verify your Email</h1>
-          <p>Enter the 6-digit code sent to your email address</p>
+          <p>
+            Enter the 6-digit code sent to your email address
+            <br />
+            <strong>{email}</strong>
+          </p>
 
           <div className="otp-inputs">
             {otp.map((digit, index) => (
@@ -81,7 +91,6 @@ const OTP = () => {
 
         <div className="otp-illustration">
           <p>Your privacy is important. We’ve sent a secure code to your inbox.</p>
-          
         </div>
       </div>
     </div>
