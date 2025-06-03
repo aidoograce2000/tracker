@@ -5,6 +5,8 @@ import SignUp from './pages/signup';
 import ForgotPassword from './pages/Password';
 import OTP from './pages/otp';
 import './App.css';
+import Dashboard from './pages/dashboard';
+
 
 function App() {
   const { isAuthenticated, emailForOTP } = useSelector((state) => state.auth);
@@ -17,6 +19,7 @@ function App() {
         <Route path="/signin" element={!isAuthenticated ? <SignIn /> : <Navigate to="/" />} />
         <Route path="/signup" element={!isAuthenticated ? <SignUp /> : <Navigate to="/" />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
+        <Route path="/dashboard" element={<Dashboard />} />
 
         {/* OTP route guarded by Redux state */}
         <Route
@@ -36,5 +39,16 @@ export default App;
 
 
 
+// import React from 'react';
+// import Dashboard from './pages/dashboard';
 
+// const App = () => {
+//   return (
+//     <div>
+//       <Dashboard />
+//     </div>
+//   );
+// };
+
+// export default App;
 
