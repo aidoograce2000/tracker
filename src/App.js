@@ -6,6 +6,7 @@ import ForgotPassword from './pages/Password';
 import OTP from './pages/otp';
 import './App.css';
 import Dashboard from './pages/dashboard';
+import Projects from './pages/project';
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path="/signup" element={!isAuthenticated ? <SignUp /> : <Navigate to="/" />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/projects" element={<Projects />} />
 
         {/* OTP route guarded by Redux state */}
         <Route

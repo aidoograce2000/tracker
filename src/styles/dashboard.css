@@ -120,6 +120,12 @@ body {
   margin: 5px 0 10px;
 }
 
+.dropdown-content a.active {
+  color: var(--brand-blue);
+  font-weight: 600;
+}
+
+
 /* Dashboard */
 .dashboard-wrapper {
   display: flex;
